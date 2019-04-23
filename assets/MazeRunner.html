@@ -1,0 +1,274 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<title>MazeRunner</title>
+<style>
+    html {
+        text-align: center;
+        font-family: Helvetica, Arial, Helvetica, sans-serif;
+    }
+
+ 	#maze {
+        width: calc(17 * 24px);
+        margin: auto;
+    }
+
+    #maze div {
+        background-color: black;
+        border: 1px solid grey;
+        box-sizing: border-box;
+        float: left;
+        width: 24px;
+        height: 24px;
+    }
+
+    #maze .obstacle {
+        background-color: gray;
+    }
+
+    #maze .player {
+        background-color: green;
+    }
+
+    #maze .enemy {
+        background-color: red;
+    }
+
+    #maze .way {
+        background-color: gray;
+    }
+</style>
+</head>
+<body onload="initGame()" onkeydown="enterKey(event)">
+    <h1>Maze Runner</h1>
+    <div id="Status" style="color: red">
+        <h3>Start the Game using arrow keys.</h3>
+    </div>
+    <div id="maze"></div>
+
+    <script>
+
+    const maze = [];
+    const mazeWidth = 17, mazeHeight = 17;
+    var obstacle = [[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+                    [1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+                    [1, 0, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1, 0, 1],
+                    [1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1],
+                    [1, 0, 1, 0, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1, 1, 0, 1],
+                    [1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1, 0, 1],
+                    [1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1, 1, 0, 1],
+                    [1, 0, 1, 0, 1, 1, 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1],
+                    [1, 0, 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1, 0, 1],
+                    [1, 0, 0, 0, 1, 1, 1, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1],
+                    [1, 0, 1, 1, 1, 0, 0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1],
+                    [1, 0, 1, 0, 0, 0, 1, 0, 1, 0, 0, 0, 1, 0, 1, 0, 1],
+                    [1, 0, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 0, 1, 1, 1],
+                    [1, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1],
+                    [1, 0, 1, 0, 1, 0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 1],
+                    [1, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+                    [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]];
+
+    var playerX;
+    var playerY;
+    var	enemyX;
+    var enemyY;
+
+    function initGame() {
+        const mazeElement = document.getElementById('maze');
+        for (var y = 0; y < mazeHeight; ++y) {
+            var row = [];
+            for (var x = 0; x < mazeWidth; ++x) {
+                var cell = {};
+                
+                // Create a <div></div> and store it in the cell object
+                cell.element = document.createElement('div');
+                
+                // Add it to the board
+                mazeElement.appendChild(cell.element);
+    
+                // Add to list of all
+                row.push(cell);
+            }
+    
+            // Add this row to the board
+            maze.push(row);
+        }
+
+        startGame()
+    }
+
+    function startGame() {
+        document.getElementById("Status").firstElementChild.innerHTML="Start the Game using arrow keys."
+        do {
+            playerX = Math.floor((Math.random() * 17));
+            playerY = Math.floor((Math.random() * 17));
+            enemyX = Math.floor((Math.random() * 17));
+            enemyY = Math.floor((Math.random() * 17));
+        } while((enemyX == playerX && enemyY==playerY) || 
+                 obstacle[playerX][playerY]==1 || 
+                 obstacle[enemyX][enemyY]==1);
+        // Clear the board
+        for (var x = 0; x < mazeHeight; ++x) {
+            for (var y = 0; y < mazeWidth; ++y) {
+                if (obstacle[x][y]==1) {
+                    maze[x][y].status = -1;
+                    maze[x][y].element.className = 'obstacle'
+                } else {
+                    maze[x][y].status = 0;
+                    maze[x][y].element.className = ''
+                }
+            }
+        }
+
+        // Set the center of the board to contain a snake
+        maze[playerX][playerY].status = 1;
+        maze[playerX][playerY].element.className = 'player';
+        maze[enemyX][enemyY].status = 2;
+        maze[enemyX][enemyY].element.className = 'enemy';
+    }
+
+    function gameOver(){
+        if(playerX==enemyX && playerY==enemyY) {
+            document.getElementById("Status").firstElementChild.innerHTML="GameOver!"
+        }
+    }
+
+    function isMoveInvalid(pos_x,pos_y) {
+        // Check for walls, and restart if we collide with any
+        if (pos_x < 0 || pos_y < 0 || pos_x >= mazeWidth || pos_y >= mazeHeight) {
+            return 1;
+        } else if (obstacle[pos_x][pos_y]==1){
+            return 1;
+        } else if (pos_x == enemyX && pos_y ==enemyY) {
+            return 1;
+        }
+        return 0;
+    }
+
+    function traceToFindNextEnemyPosition(traceX,traceY,traceParent,traceIndex) {
+        position=[]
+        while (traceParent[traceIndex]!=-1) {
+            position=[traceX[traceIndex],traceY[traceIndex]]
+            traceIndex=traceParent[traceIndex]
+        }
+        return position
+    }
+
+    function moveEnemy() {
+        var visited = []
+        for (var i = 0; i < obstacle.length; i++) {
+            visited[i] = obstacle[i].slice();
+        }
+        visited[enemyX][enemyY]=1
+        var traceX = [enemyX]
+        var traceY = [enemyY]
+        var traceParent = [-1]
+        var traceIndex=0,traceSize=1;
+        while(traceIndex<traceSize && (traceX[traceIndex]!=playerX || traceY[traceIndex]!=playerY)) {
+            if(!isMoveInvalid(traceX[traceIndex]+1,traceY[traceIndex]) && visited[traceX[traceIndex]+1][traceY[traceIndex]]==0) {
+                traceX[traceSize]=traceX[traceIndex]+1
+                traceY[traceSize]=traceY[traceIndex]
+                visited[traceX[traceIndex]+1][traceY[traceIndex]]=1
+                traceParent[traceSize] = traceIndex
+                traceSize++
+            }
+            if(!isMoveInvalid(traceX[traceIndex]-1,traceY[traceIndex]) && visited[traceX[traceIndex]-1][traceY[traceIndex]]==0) {
+                traceX[traceSize]=traceX[traceIndex]-1
+                traceY[traceSize]=traceY[traceIndex]
+                visited[traceX[traceIndex]-1][traceY[traceIndex]]=1
+                traceParent[traceSize] = traceIndex
+                traceSize++
+            }
+            if(!isMoveInvalid(traceX[traceIndex],traceY[traceIndex]+1) && visited[traceX[traceIndex]][traceY[traceIndex]+1]==0) {
+                traceX[traceSize]=traceX[traceIndex]
+                traceY[traceSize]=traceY[traceIndex]+1
+                visited[traceX[traceIndex]][traceY[traceIndex]+1]=1
+                traceParent[traceSize] = traceIndex
+                traceSize++
+            }
+            if(!isMoveInvalid(traceX[traceIndex],traceY[traceIndex]-1) && visited[traceX[traceIndex]][traceY[traceIndex]-1]==0) {
+                traceX[traceSize]=traceX[traceIndex]
+                traceY[traceSize]=traceY[traceIndex]-1
+                visited[traceX[traceIndex]][traceY[traceIndex]-1]=1
+                traceParent[traceSize] = traceIndex
+                traceSize++
+            }
+            if(!isMoveInvalid(traceX[traceIndex]+1,traceY[traceIndex]+1) && visited[traceX[traceIndex]+1][traceY[traceIndex]+1]==0) {
+                traceX[traceSize]=traceX[traceIndex]+1
+                traceY[traceSize]=traceY[traceIndex]+1
+                visited[traceX[traceIndex]+1][traceY[traceIndex]+1]=1
+                traceParent[traceSize] = traceIndex
+                traceSize++
+            }
+            if(!isMoveInvalid(traceX[traceIndex]-1,traceY[traceIndex]-1) && visited[traceX[traceIndex]-1][traceY[traceIndex]-1]==0) {
+                traceX[traceSize]=traceX[traceIndex]-1
+                traceY[traceSize]=traceY[traceIndex]-1
+                visited[traceX[traceIndex]-1][traceY[traceIndex]-1]=1
+                traceParent[traceSize] = traceIndex
+                traceSize++
+            }
+            if(!isMoveInvalid(traceX[traceIndex]-1,traceY[traceIndex]+1) && visited[traceX[traceIndex]-1][traceY[traceIndex]+1]==0) {
+                traceX[traceSize]=traceX[traceIndex]-1
+                traceY[traceSize]=traceY[traceIndex]+1
+                visited[traceX[traceIndex]-1][traceY[traceIndex]+1]=1
+                traceParent[traceSize] = traceIndex
+                traceSize++
+            }
+            if(!isMoveInvalid(traceX[traceIndex]+1,traceY[traceIndex]-1) && visited[traceX[traceIndex]+1][traceY[traceIndex]-1]==0) {
+                traceX[traceSize]=traceX[traceIndex]+1
+                traceY[traceSize]=traceY[traceIndex]-1
+                visited[traceX[traceIndex]+1][traceY[traceIndex]-1]=1
+                traceParent[traceSize] = traceIndex
+                traceSize++
+            }
+            traceIndex++
+        }
+        if (traceIndex>=traceSize) {
+            alert("ERROR!")
+        } else {
+            var enemyPosition = traceToFindNextEnemyPosition(traceX,traceY,traceParent,traceIndex)
+            maze[enemyX][enemyY].status=0;
+            maze[enemyX][enemyY].element.className = '';
+            enemyX=enemyPosition[0];
+            enemyY=enemyPosition[1];
+            maze[enemyX][enemyY].status=2;
+            maze[enemyX][enemyY].element.className = 'enemy';
+            gameOver();
+        }
+    }
+
+    function movePlayer(pos_x,pos_y) {
+        if(!isMoveInvalid(pos_x,pos_y)) {
+            maze[playerX][playerY].status=0;
+            maze[playerX][playerY].element.className = '';
+            playerX=pos_x;
+            playerY=pos_y;
+            maze[playerX][playerY].status=1;
+            maze[playerX][playerY].element.className = 'player';
+            gameOver();
+            moveEnemy()
+        }
+    }
+
+    
+
+    function enterKey(event) {
+        if(playerX == enemyX && playerY ==enemyY) {
+            startGame()
+        }
+        switch (event.key) {
+            case 'ArrowUp': movePlayer(playerX-1,playerY); break;
+            case 'ArrowDown': movePlayer(playerX+1,playerY); break;
+            case 'ArrowLeft': movePlayer(playerX,playerY-1); break;
+            case 'ArrowRight': movePlayer(playerX,playerY+1); break;
+            default: break;
+        }
+
+        // This prevents the arrow keys from scrolling the window
+        event.preventDefault();
+    }
+
+    </script>
+</body>
+</html>
