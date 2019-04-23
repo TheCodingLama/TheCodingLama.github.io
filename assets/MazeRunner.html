@@ -73,6 +73,7 @@
     var playerY;
     var	enemyX;
     var enemyY;
+    var gameOverStatus=0;
 
     function initGame() {
         const mazeElement = document.getElementById('maze');
@@ -99,6 +100,7 @@
     }
 
     function startGame() {
+        gameOverStatus=0;
         document.getElementById("Status").firstElementChild.innerHTML="Start the Game using arrow keys."
         do {
             playerX = Math.floor((Math.random() * 17));
@@ -129,7 +131,12 @@
     }
 
     function gameOver(){
-        if(playerX==enemyX && playerY==enemyY) {
+        if((playerX==enemyX && playerY==enemyY) || 
+            (maze[playerX+1][playerY].status!=0 &&
+             maze[playerX-1][playerY].status!=0 &&
+             maze[playerX][playerY+1].status!=0 &&
+             maze[playerX][playerY-1].status!=0)) {
+            gameOverStatus=1
             document.getElementById("Status").firstElementChild.innerHTML="GameOver!"
         }
     }
@@ -254,7 +261,7 @@
     
 
     function enterKey(event) {
-        if(playerX == enemyX && playerY ==enemyY) {
+        if(gameOverStatus==1) {
             startGame()
         }
         switch (event.key) {
