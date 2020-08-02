@@ -1,0 +1,74 @@
+body {
+	margin: auto; 
+	background-color: #141010
+}
+
+select {
+	background-color: grey;
+	color: white;
+	font-size: 12px;
+	margin: 15px 10px; 
+}
+
+button {
+	background-color: grey;
+	border: none;
+	color: white;
+	text-decoration: none;
+	font-size: 15px;
+	padding: 5px 10px;
+	margin: 15px 10px
+}
+
+input {
+	width: 70px;
+	-webkit-appearance: none;
+	background: white;
+	outline: none;
+	-webkit-transition: .2s;
+	transition: opacity .2s;
+}
+
+.bar {
+	background: #b60e4e;
+	float: left;
+}
+
+#menubar {
+	height: 80px; 
+	width:100%;
+}
+
+#leftPart {
+	margin: auto; 
+	float: left; 
+	width: 20%; 
+	height: 100%;
+}
+
+#title {
+	color: white; 
+	font-family: arial; 
+	margin: 15px 15px  0px 45px
+}
+
+#middlePart{
+	margin: auto; 
+	float: left; 
+	width: 40%; 
+	height: 100%; 
+	color: white;
+}
+
+#rightPart{
+	margin: auto;  
+	float: right; 
+	width: 40%; 
+	height: 100%; 
+	color:white
+}
+
+#vis_board {
+	margin: 0 auto;  
+	height: 500px
+}

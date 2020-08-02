@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Sorting Algorithms Visualization</title>
+	<link rel="stylesheet" href="style.css">
+</head>
+<body onload="generateData()">
+	<div id="menubar">
+		<div id="leftPart">
+			<h3 id="title"> Sorting Visualization</h3>
+		</div>
+		<div id="middlePart">
+			5<input type="range" id="arrsize" name="arrsize" min="5" max="60" value="20" class="slider">60
+			<select name="data" id="arrtype">
+				<option value="rand">Random</option>
+				<option value="nasc">Nearly sorted</option>
+				<option value="rev">Reversed</option>
+				<option value="fuq">Few Unique</option>
+			</select>
+			<button onclick="generateData()" id="generate">Generate</button>
+		</div>
+		<div id="rightPart">
+			1000ms<input type="range" id="sortspeed" name="sortspeed" min="0" max="49" value="40" class="slider">20ms
+			<select name="sortalg" id="sortalg">
+				<option value="merge">Merge Sort</option>
+				<option value="bubble">Bubble Sort</option>
+				<!-- <option value="quick">Quick Sort</option> -->
+				<option value="insertion">Insertion Sort</option>
+			</select>
+			<button onclick="sortOrStop()" id="sort">Sort</button>
+		</div>
+	</div>
+	
+	<div id="vis_board">
+
+	</div>
+
+	<script type="text/javascript" src="sortVis.js"></script>
+	<noscript>Sorry, your browser either does not support JavaScript or it is diabled in browser settings. Kindly check if it is diabled and enable it.</noscript>
+</body>
+</html>
