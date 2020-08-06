@@ -1,0 +1,79 @@
+@font-face {
+  font-family: charter-regular;
+  src: url(charter_regular-webfont.woff);
+}
+
+@font-face {
+  font-family: charter-bold;
+  src: url(charter_bold-webfont.woff);
+}
+
+@font-face {
+  font-family: roboto-regular;
+  src: url(Roboto-Regular.ttf) format("truetype");
+}
+
+@font-face {
+  font-family: lucidagrande-regular;
+  src: url(LucidaGrande.ttf) format("truetype");
+}
+
+@font-face {
+  font-family: georgia-regular;
+  src: url(Georgia_Regular_font.ttf) format("truetype");
+}
+
+
+#blog_content {
+	box-sizing: border-box;
+	width: 740px;
+	margin: 0 auto;
+}
+
+/*@media screen and (max-width: 1200px) {
+  #blog_content {
+    padding: 0 150px
+  }
+}
+
+@media screen and (max-width: 1024px) {
+  #blog_content {
+    padding: 0 100px
+  }
+}
+
+@media screen and (max-width: 768px) {
+  #blog_content {
+    padding: 0;
+  }
+}*/
+
+#blog_heading {
+	font-family: georgia-regular;
+	font-weight: normal;
+	font-size: 36px;
+	color: #292929;
+	text-align: justify; 	
+}
+
+#blog_subheading {
+	font-family: georgia-regular;
+	font-weight: normal;
+	font-size: 22px;
+	color: #757575;
+	text-align: justify;
+}
+
+.blog_section_heading {
+	font-family: lucidagrande-regular;
+	font-size: 28px;
+	color: #292929;
+	text-align: justify;
+}
+
+.blog_para {
+	font-family: charter-regular;
+	font-size: 22px;
+	color: #292929;
+	text-align: justify;
+}
